@@ -6,7 +6,7 @@
 
 ## 🎮 在线体验
 
-**游戏地址：** [[在这里填写 GitHub Pages 网站地址](https://railsmon.github.io/minecraft-guess/)]
+**游戏地址：** [[网址](https://railsmon.github.io/minecraft-guess/)]
 
 ## ✨ 游戏特色
 
