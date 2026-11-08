@@ -51,18 +51,6 @@
 2. 找到 `index.html`。
 3. 使用浏览器打开即可游玩。
 
-## 🌐 网站部署
-
-本项目支持使用 GitHub Pages 部署：
-
-1. 将游戏文件上传到 GitHub 仓库。
-2. 确保主页文件名为 `index.html`。
-3. 进入仓库的 `Settings`。
-4. 找到 `Pages`。
-5. 选择 `Deploy from a branch`。
-6. 选择 `main` 分支和 `/ (root)` 目录。
-7. 保存并等待部署完成。
-
 ## 📦 技术说明
 
 - HTML
