@@ -73,9 +73,8 @@ body{
 #startscreen{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(8,18,8,.84);backdrop-filter:blur(5px)}
 .start-card{width:min(100%,460px);padding:26px 24px 22px;text-align:center;color:#263322;background:linear-gradient(180deg,#e8f2dc,#c8d9b7);border:4px solid #172817;box-shadow:inset 4px 4px 0 #fff,inset -4px -4px 0 #718765,0 12px 0 rgba(0,0,0,.28);position:relative}
 .start-kicker{font-size:10px;font-weight:900;letter-spacing:3px;color:#52754a}
-.start-creeper{width:78px;height:78px;margin:14px auto 12px;background:#69ad45;border:4px solid #315b2b;box-shadow:inset 5px 5px 0 #9bd46d,inset -5px -5px 0 #477f34;position:relative}
-.start-creeper:before{content:"";position:absolute;left:15px;top:18px;width:14px;height:14px;background:#20351d;box-shadow:30px 0 #20351d}
-.start-creeper:after{content:"";position:absolute;left:24px;top:34px;width:28px;height:26px;background:#20351d;clip-path:polygon(0 0,35% 0,35% 30%,65% 30%,65% 0,100% 0,100% 100%,65% 100%,65% 70%,35% 70%,35% 100%,0 100%)}
+.start-creeper{width:78px;height:78px;padding:3px;margin:14px auto 12px;background:#69ad45;border:4px solid #315b2b;box-shadow:inset 5px 5px 0 #9bd46d,inset -5px -5px 0 #477f34;position:relative}
+.start-creeper canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 #start-title{margin:4px 0 8px;font-size:25px;font-weight:900;color:#263c22;text-shadow:1px 1px 0 #fff}
 .start-desc{margin:0 auto 16px;max-width:350px;font-size:14px;line-height:1.7;color:#45583e}
 .start-rules{display:grid;gap:7px;text-align:left;margin:0 auto 14px;max-width:330px}
@@ -111,21 +110,25 @@ body{
 .loading{color:#7a5a2c;font-style:italic}
 .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 
-/* ===== Creeper Edition visual redesign ===== */
+/* ===== Minecraft 视觉重设计（草方块主题） ===== */
 :root{--gui:#e5e0d3;--gui-hi:#fffdf4;--gui-lo:#746d5c;--ink:#29271f;--slot:#77766b;--green:#4f9b45;--red:#b84a43;--orange:#d69a32;--blue:#467db1}
 body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(ellipse at 50% -15%,#557a45 0,transparent 48%),linear-gradient(135deg,#18291e,#263b28 48%,#17251b);image-rendering:auto}
 #dirt{opacity:.22;filter:brightness(.5)}.wrap{max-width:1040px}
 .hero{position:relative;min-height:250px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;padding:28px 38px;margin:0 0 14px;border:3px solid #10180f;background:linear-gradient(110deg,rgba(21,43,26,.97),rgba(49,83,43,.93) 58%,rgba(24,45,28,.98));box-shadow:inset 0 0 0 2px #91b66b,0 9px 0 rgba(0,0,0,.25);}
 .hero:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,255,255,.035) 32px),repeating-linear-gradient(90deg,transparent 0 31px,rgba(255,255,255,.035) 32px);pointer-events:none}
 .hero-copy{position:relative;z-index:2}.eyebrow{font-size:10px;letter-spacing:3px;color:#b7d69a;font-weight:900}.hero h1{margin:9px 0 8px;font-size:clamp(28px,5vw,48px);line-height:1.1;font-weight:1000;letter-spacing:1px;color:#f2f0df;text-shadow:3px 3px #33472e,6px 6px #10180f}.hero h1 span{color:#b9df83}.hero p{margin:0 0 18px;color:#e2ebd5;font-size:14px}.hero-meta{display:flex;gap:8px 16px;flex-wrap:wrap;color:#d1e4bd;font-size:11px}.hero-meta b{color:#fff}
-.creeper-stage{position:relative;width:190px;height:210px;flex:none;display:flex;align-items:center;justify-content:center}.creeper-shadow{position:absolute;bottom:19px;width:130px;height:18px;background:#10190f;border-radius:50%;filter:blur(2px)}.creeper{position:relative;width:116px;height:174px;filter:drop-shadow(7px 8px 0 rgba(0,0,0,.28));animation:creeperBob 3.4s ease-in-out infinite}.creeper .face{position:absolute;top:0;left:13px;width:90px;height:86px;background:#70b94c;border:5px solid #315f2c;box-shadow:inset 5px 5px #9bd76b,inset -6px -6px #4c913c;background-image:linear-gradient(90deg,transparent 24%,rgba(28,65,25,.16) 25% 27%,transparent 28%),linear-gradient(0deg,transparent 24%,rgba(28,65,25,.13) 25% 27%,transparent 28%);z-index:2}.creeper .face:before{content:"";position:absolute;left:14px;top:19px;width:16px;height:16px;background:#152015;box-shadow:40px 0 #152015,20px 20px #152015,10px 30px #152015,30px 30px #152015,20px 40px #152015,10px 50px #152015,30px 50px #152015}.creeper .body{position:absolute;top:77px;left:25px;width:66px;height:62px;background:#68ad45;border:4px solid #315f2c;box-shadow:inset 5px 4px #91cf61,inset -5px -5px #4b8d39}.creeper .leg{position:absolute;top:128px;width:31px;height:45px;background:#5c9f3e;border:4px solid #315f2c;box-shadow:inset 4px 3px #8ac65a}.creeper .l1{left:23px}.creeper .l2{left:62px}.creeper .l3,.creeper .l4{display:none}.creeper-label{position:absolute;bottom:0;color:#b9df83;font-size:10px;letter-spacing:4px;font-weight:900;text-shadow:2px 2px #17251b}
-@keyframes creeperBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.grass-stage{position:relative;width:190px;height:200px;flex:none;display:flex;align-items:center;justify-content:center}
+.grass-shadow{position:absolute;bottom:12px;width:96px;height:15px;background:#10190f;border-radius:50%;filter:blur(2px)}
+/* 顶部主视觉：经典草方块等距立方体像素图 */
+.grass-block{image-rendering:pixelated;width:128px;height:128px;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.28));animation:grassBob 3.4s ease-in-out infinite}
+.grass-label{position:absolute;bottom:0;color:#b9df83;font-size:10px;letter-spacing:4px;font-weight:900;text-shadow:2px 2px #17251b}
+@keyframes grassBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .scorebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 1.6fr;gap:8px;margin:0 0 14px}.scorebox,.score-rule{min-height:68px;background:linear-gradient(145deg,#e8e3d5,#c9c4b5);color:#29271f;border:2px solid #111;box-shadow:inset 2px 2px #fff,inset -2px -2px #777;padding:10px 12px;display:flex;align-items:center;gap:10px}.score-icon{width:32px;height:32px;display:grid;place-items:center;background:#426f35;color:#e5f7c7;border:2px solid #172817;font-size:20px;text-shadow:1px 1px #172817}.score-icon.trophy{background:#9a7627}.scorebox small{display:block;color:#615c4f;font-size:11px}.scorebox strong{font-size:22px;line-height:1.15;color:#263d20;font-variant-numeric:tabular-nums}.scorebox em{font-size:11px;font-style:normal}.score-rule{font-size:12px;line-height:1.6;color:#514c40}
 .tagline{color:#d9e9c7;text-shadow:2px 2px #152318;letter-spacing:1px;margin:8px 0 14px}.gui{border:3px solid #101010;box-shadow:inset 3px 3px 0 #fff,inset -3px -3px 0 #777;margin-bottom:14px}.gui h3{font-size:15px}.inputrow{margin:0 0 6px;gap:10px}#q{min-height:50px;padding:12px 15px;font-size:16px;border:3px solid #111;box-shadow:inset 3px 3px #555}.btn{border:3px solid #101010;padding:10px 20px;font-size:15px;box-shadow:inset 3px 3px rgba(255,255,255,.35),inset -3px -3px rgba(0,0,0,.3)}.btn.green{background:#4e9638}.stat{display:flex;justify-content:center;gap:14px;margin:10px 0 15px}.stat a{color:#dcebc9;text-decoration:none;border-bottom:1px dashed #a5c18e}.stat-dot{color:#91b66b;font-size:10px;align-self:center}
 .tbl{background:rgba(9,17,11,.42);padding:10px;border:2px solid #111;box-shadow:inset 0 0 0 1px #668455}.hd{font-size:12px;font-weight:900;color:#d8f1b9;padding:5px 0}.cell{min-height:54px;border:2px solid #151515;box-shadow:inset 2px 2px rgba(255,255,255,.32),inset -2px -2px rgba(0,0,0,.3)}.namecell{background:#303b2b}.namecell img,.namecell canvas{width:38px;height:38px;object-fit:contain;image-rendering:pixelated}.subcell{background:#303b2b}.legend{margin:12px 2px}.note{color:#c3d1b8}.logo,.logo h1{display:none}
 #card{max-width:720px;border:3px solid #111;box-shadow:inset 3px 3px #fff,inset -3px -3px #777,0 0 0 4px #263e24,0 0 0 7px #111}.result-score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;padding:10px;background:#283d25;border:2px solid #111}.result-score>div{text-align:center;color:#fff}.result-score small{display:block;color:#c5d9b6;font-size:11px}.result-score strong{font-size:28px;color:#d9f2a9;display:block;line-height:1.25}.result-score span{font-size:10px;color:#b9cbaa}.ico{object-fit:contain;image-rendering:pixelated}
-@media(max-width:720px){.hero{padding:22px 20px;min-height:210px}.creeper-stage{width:125px;transform:scale(.78);transform-origin:center right;margin-left:-15px}.hero h1{font-size:30px}.hero p{max-width:330px}.scorebar{grid-template-columns:repeat(3,minmax(0,1fr))}.score-rule{grid-column:1/-1;min-height:42px}.scorebox{padding:8px 7px;gap:6px}.score-icon{width:25px;height:25px;font-size:15px}.scorebox strong{font-size:19px}}
-@media(max-width:430px){body{padding:10px 8px 50px}.hero{padding:18px 14px}.hero h1{font-size:25px}.hero p{font-size:12px;max-width:220px}.hero-meta{font-size:9px;gap:6px 10px}.creeper-stage{width:92px;transform:scale(.62);margin-left:-28px}.scorebar{gap:5px}.scorebox{display:block;text-align:center}.score-icon{margin:0 auto 4px}.scorebox small{font-size:10px}.scorebox strong{font-size:17px}.score-rule{font-size:11px}.result-score{gap:3px;padding:8px 4px}.result-score strong{font-size:23px}}
+@media(max-width:720px){.hero{padding:22px 20px;min-height:210px}.grass-stage{width:125px;transform:scale(.78);transform-origin:center right;margin-left:-15px}.hero h1{font-size:30px}.hero p{max-width:330px}.scorebar{grid-template-columns:repeat(3,minmax(0,1fr))}.score-rule{grid-column:1/-1;min-height:42px}.scorebox{padding:8px 7px;gap:6px}.score-icon{width:25px;height:25px;font-size:15px}.scorebox strong{font-size:19px}}
+@media(max-width:430px){body{padding:10px 8px 50px}.hero{padding:18px 14px}.hero h1{font-size:25px}.hero p{font-size:12px;max-width:220px}.hero-meta{font-size:9px;gap:6px 10px}.grass-stage{width:92px;transform:scale(.62);margin-left:-28px}.scorebar{gap:5px}.scorebox{display:block;text-align:center}.score-icon{margin:0 auto 4px}.scorebox small{font-size:10px}.scorebox strong{font-size:17px}.score-rule{font-size:11px}.result-score{gap:3px;padding:8px 4px}.result-score strong{font-size:23px}}
 
 
 /* 背景音乐控制台 */
@@ -148,11 +151,11 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
       <p>认出方块、物品与生物？用最少的尝试找出答案。</p>
       <div class="hero-meta"><span>▣ 收录 <b id="total"></b> 项</span><span>◆ 原版资源贴图</span><span>✦ 版本 1.0 – 26.4</span></div>
     </div>
-    <div class="creeper-stage" aria-label="苦力怕像素形象"><div class="creeper-shadow"></div><div class="creeper"><i class="face"></i><i class="body"></i><i class="leg l1"></i><i class="leg l2"></i><i class="leg l3"></i><i class="leg l4"></i></div><div class="creeper-label">CREEPER</div></div>
+    <div class="grass-stage" aria-label="经典草方块像素形象"><div class="grass-shadow"></div><canvas class="grass-block" id="heroGrass" width="16" height="16"></canvas><div class="grass-label">GRASS BLOCK</div></div>
   </header>
   <div class="scorebar">
-    <div class="scorebox"><span class="score-icon">✦</span><div><small>本局得分</small><strong id="score">1000</strong></div></div>
-    <div class="scorebox"><span class="score-icon trophy">★</span><div><small>个人最高分</small><strong id="best">0</strong></div></div>
+    <div class="scorebox"><span class="score-icon">✦</span><div><small>累计得分</small><strong id="score">0</strong></div></div>
+    <div class="scorebox"><span class="score-icon trophy">★</span><div><small>本局得分</small><strong id="best">—</strong></div></div>
     <div class="scorebox"><span class="score-icon">⌁</span><div><small>已猜次数</small><strong><span id="cnt">0</span><em> 次</em></strong></div></div>
     <div class="score-rule">首猜答对可得 1000 分，每多猜一次扣 100 分，最低 100 分；放弃本局得 0 分。</div>
   </div>
@@ -163,9 +166,9 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
     <div class="opts">
       <label><input type="checkbox" id="o_sherd"> 合并所有陶片</label>
       <label><input type="checkbox" id="o_template"> 合并盔甲纹饰锻造模板</label>
-      <label><input type="checkbox" id="o_wool"> 合并所有颜色的羊毛</label>
+      <label><input type="checkbox" id="o_color"> 合并所有不同颜色方块</label>
     </div>
-    <div class="hint">勾选后立即开始新的一局：猜中同一系列的任意一种即算答对。铜的氧化、涂蜡形态视为同一项（输入“氧化铜格栅”会当作“铜格栅”）。</div>
+    <div class="hint">勾选后立即开始新的一局：猜中同一系列的任意一种即算答对。「合并所有不同颜色方块」会把仅颜色不同的同种方块各自归为一组（如各色羊毛、混凝土、混凝土粉末、染色玻璃、地毯、陶瓦、床、潜影盒、蜡烛等），猜中该系列的任意一种颜色即算答对。铜的氧化、涂蜡形态视为同一项（输入“氧化铜格栅”会当作“铜格栅”）。</div>
   </div>
 
   <div class="inputrow">
@@ -193,7 +196,7 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
 <div id="startscreen" role="dialog" aria-modal="true" aria-labelledby="start-title">
   <div class="start-card">
     <div class="start-kicker">A MINECRAFT ITEM QUIZ</div>
-    <div class="start-creeper" aria-hidden="true"><span></span></div>
+    <div class="start-creeper" aria-hidden="true"><canvas id="startCreeper" width="16" height="16"></canvas></div>
     <h2 id="start-title">准备好挑战了吗？</h2>
     <p class="start-desc">有一个 Minecraft 物品正藏在方块世界里。根据每次猜测得到的线索，找出它吧！</p>
     <div class="start-rules">
@@ -227,6 +230,25 @@ const DATA = [{"n":"石头","v":"1.0","c":"方块","d":"主世界","desc":"最�
 const MAJORS=["1.0","1.1","1.2","1.3","1.4","1.5","1.6","1.7","1.8","1.9","1.10","1.11","1.12","1.13","1.14","1.15","1.16","1.17","1.18","1.19","1.20","1.21","26.1","26.2","26.3","26.4"];
 const VERNAME={"1.0":"正式版","1.1":"1.1","1.2":"1.2 丛林","1.3":"1.3 绿宝石","1.4":"1.4 怪物更新","1.5":"红石更新","1.6":"马之更新","1.7":"改变世界的更新","1.8":"海洋更新","1.9":"战斗更新","1.10":"冰霜更新","1.11":"探索更新","1.12":"彩色更新","1.13":"水域更新","1.14":"村庄与掠夺","1.15":"蜜蜂更新","1.16":"下界更新","1.17":"洞穴与山崖 I","1.18":"洞穴与山崖 II","1.19":"荒野更新","1.20":"旅行与传说","1.21":"试炼大冒险","26.1":"迷你来袭","26.2":"混沌方块","26.3":"荒野探险","26.4":"冬季更新（快照）"};
 const GROUPS={wool:{name:"羊毛（任意颜色）",cmp:"羊毛",page:"羊毛"},sherd:{name:"陶片（任意种类）",cmp:"陶片",page:"陶片"},template:{name:"盔甲纹饰锻造模板（任意种类）",cmp:"锻造模板",page:"锻造模板"}};
+// ===== 合并所有不同颜色方块：按“颜色前缀 + 同一基础名”把仅颜色不同的方块归为一组 =====
+const COLORS=["淡灰色","淡蓝色","黄绿色","白色","橙色","品红色","黄色","粉红色","灰色","青色","紫色","蓝色","棕色","绿色","红色","黑色"];
+function buildColorGroups(data){
+  const byBase={};
+  for(const e of data){
+    if(e.c!=="方块")continue;
+    let base=null;
+    for(const col of COLORS){if(e.n.startsWith(col)&&e.n.length>col.length){base=e.n.slice(col.length);break;}}
+    if(base)(byBase[base]||(byBase[base]=[])).push(e);
+  }
+  for(const base in byBase){
+    if(byBase[base].length<2)continue;
+    const key="color:"+base;
+    GROUPS[key]={name:base+"（任意颜色）",cmp:base,page:base};
+    for(const e of byBase[base])e.g=key;
+  }
+}
+buildColorGroups(DATA);
+function gOn(g,settings){if(!g)return false;return g.indexOf("color:")===0?!!settings.color:!!settings[g];}
 
 function major(v){const p=v.split(".");return p[0]+"."+p[1];}
 function vnum(v){return v.split(".").map(Number);}
@@ -260,16 +282,16 @@ function cmpName(guessName,targetName){
 }
 function isWin(guess,target,settings){
   if(guess.id===target.id)return true;
-  return !!(guess.g&&settings[guess.g]&&guess.g===target.g);
+  return !!(guess.g&&target.g&&guess.g===target.g&&gOn(guess.g,settings));
 }
 function targetCmpName(target,settings){
-  if(target.g&&settings[target.g])return GROUPS[target.g].cmp;
+  if(target.g&&gOn(target.g,settings))return GROUPS[target.g].cmp;
   return target.n;
 }
 function buildPool(data,settings){
   const seen=new Set(),out=[];
   for(const e of data){
-    if(e.g&&settings[e.g]){if(seen.has(e.g))continue;seen.add(e.g);}
+    if(e.g&&gOn(e.g,settings)){if(seen.has(e.g))continue;seen.add(e.g);}
     out.push(e);
   }
   return out;
@@ -475,37 +497,121 @@ function pickURL(tier){const ids={wood:"wooden_pickaxe",stone:"stone_pickaxe",ir
   const r=rng("dirt"),c=mk(16,16),x=c.getContext("2d");
   for(let j=0;j<16;j++)for(let i=0;i<16;i++){const v=.8+r()*.4;x.fillStyle=`rgb(${121*v|0},${85*v|0},${58*v|0})`;x.fillRect(i,j,1,1);if(r()<.08){x.fillStyle="rgba(70,50,35,.8)";x.fillRect(i,j,1,1);}}
   document.getElementById("dirt").style.backgroundImage=`url(${c.toDataURL()})`;
-  // 浏览器标签页图标：使用苦力怕正脸像素图，而不是草方块
-  const l=document.getElementById("logoic"),lx=l.getContext("2d");
-  lx.imageSmoothingEnabled=false;
-  lx.clearRect(0,0,32,32);
-  // 绿色头部底色与像素阴影
-  lx.fillStyle="#315f2c";lx.fillRect(2,1,28,30);
-  lx.fillStyle="#70b94c";lx.fillRect(4,3,24,26);
-  lx.fillStyle="#8dcc5d";lx.fillRect(5,4,10,8);
-  lx.fillStyle="#4c913c";lx.fillRect(18,18,9,10);
-  // 苦力怕标志性黑色面部：双眼、鼻梁与倒 T 形嘴部
-  lx.fillStyle="#172117";
-  lx.fillRect(8,9,5,6);lx.fillRect(19,9,5,6);
-  lx.fillRect(13,15,6,5);
-  lx.fillRect(10,19,4,7);lx.fillRect(18,19,4,7);
-  lx.fillRect(14,22,4,5);
+  // 浏览器标签页图标：与顶部主视觉同一张原版风格草方块
+  const l=document.getElementById("logoic");
+  const tile=mk(16,16);drawGrassBlock(tile);
+  paintFace(l,tile);
   const link=document.createElement("link");link.rel="icon";link.type="image/png";link.href=l.toDataURL("image/png");
   document.querySelectorAll('link[rel~="icon"]').forEach(n=>n.remove());
   document.head.appendChild(link);
 })();
 
+// ================= 像素画：经典苦力怕正脸 & 经典草方块 =================
+// 经典 MC creeper_face 8x8：2x2 方眼 + 鼻梁 + 倒 T 分叉嘴；左右严格镜像，避免歪脸
+function makeCreeperFace(){
+  const F8=[[0,0,0,0,0,0,0,0],
+            [0,1,1,0,0,1,1,0],
+            [0,1,1,0,0,1,1,0],
+            [0,0,0,1,1,0,0,0],
+            [0,0,1,1,1,1,0,0],
+            [0,0,1,1,1,1,0,0],
+            [0,0,1,0,0,1,0,0],
+            [0,0,1,0,0,1,0,0]];
+  const c=mk(16,16),g=c.getContext("2d");
+  const LIGHT="#7cc046",MID="#61aa37",DARK="#4d8b2c",FACE="#1d1e1b";
+  for(let r=0;r<8;r++)for(let col=0;col<8;col++){
+    const x=col*2,y=r*2;
+    if(F8[r][col]){g.fillStyle=FACE;g.fillRect(x,y,2,2);continue;}
+    for(let sy=0;sy<2;sy++)for(let sx=0;sx<2;sx++){
+      // 噪声按左半边取值再镜像，保证正脸左右完全对称
+      const mcol=col<4?col:7-col;
+      const msx=col<4?sx:1-sx;
+      const key=(r*4+mcol)*4+sy*2+msx;
+      const v=(((key*2654435761)>>>0)%1000)/1000;
+      let color=MID;
+      if(v<0.20)color=DARK;else if(v>0.58)color=LIGHT;
+      g.fillStyle=color;g.fillRect(x+sx,y+sy,1,1);
+    }
+  }
+  return c;
+}
+function paintFace(canvas,src){
+  if(!canvas)return;
+  const ctx=canvas.getContext("2d");ctx.imageSmoothingEnabled=false;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(src,0,0,canvas.width,canvas.height);
+}
+// 经典草方块：按原版 16x16 贴图（grass_top / dirt / grass_side_overlay）做等距纹理映射
+// 顶面 100% 亮度、左侧面 80%、右侧面 60%，与 MC 方块物品渲染的光照一致
+function drawGrassBlock(canvas){
+  const g=canvas.getContext("2d");g.imageSmoothingEnabled=false;
+  g.clearRect(0,0,canvas.width,canvas.height);
+  const S=16;
+  const hash=(x,y,s)=>{let n=(x*374761393+y*668265263+s*144665)>>>0;n=Math.imul(n^(n>>>13),1274126177)>>>0;return ((n^(n>>>16))>>>0)/4294967296;};
+  const noise=(x,y,s)=>{
+    const xi=Math.floor(x),yi=Math.floor(y),fx=x-xi,fy=y-yi;
+    const a=hash(xi,yi,s),b=hash(xi+1,yi,s),c=hash(xi,yi+1,s),d=hash(xi+1,yi+1,s);
+    const u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);
+    const t=a+(b-a)*u,w=c+(d-c)*u;
+    return t+(w-t)*v;
+  };
+  // 大块斑驳 + 细颗粒，贴近原版贴图的块状噪点而不是逐像素乱色
+  const blot=(x,y,s)=>0.34*noise(x/3.2,y/3.2,s)+0.66*noise(x/1.5,y/1.5,s+17);
+  // grass_top 是细密的灰度噪点，用逐像素 hash 主导，避免出现大块十字亮斑
+  const blotFine=(x,y,s)=>0.6*hash(x,y,s)+0.4*noise(x/2,y/2,s+17);
+  const GRASS=[[92,136,56],[102,147,62],[112,158,68],[122,169,74],[133,180,81]];
+  const DIRT=[[95,70,46],[111,82,54],[127,95,63],[143,108,73],[158,121,82]];
+  const pick=(pal,v)=>pal[Math.min(pal.length-1,Math.max(0,Math.floor(v*pal.length)))];
+  const clamp=i=>i<0?0:i>15?15:i;
+  const top=[],dirt=[],side=[];
+  for(let u=0;u<S;u++){
+    // grass_side_overlay：绿带下缘按 2-3 像素宽的块错落下垂（不是逐列细丝）
+    const band=4+Math.floor(2.6*noise(Math.floor(u/3)/1.7,0,71));
+    const depth=band+(hash(Math.floor(u/3),0,93)>0.8?2:0)-(hash(u,0,97)>0.86?1:0);
+    for(let v=0;v<S;v++){
+      const tv=blotFine(u,v,3),dv=blot(u,v,11),sv=blotFine(u,v,23);
+      // 原版 dirt 贴图里零散的深色/浅色颗粒
+      const grain=hash(u,v,55)>0.93?0.55:(hash(u,v,57)<0.07?1.18:1);
+      top[v*S+u]=pick(GRASS,tv);
+      dirt[v*S+u]=pick(DIRT,dv*grain);
+      side[v*S+u]=(v<depth)?pick(GRASS,sv):pick(DIRT,dv*grain);
+    }
+  }
+  const shade=(c,k)=>`rgb(${(c[0]*k)|0},${(c[1]*k)|0},${(c[2]*k)|0})`;
+  const px=(x,y,col)=>{g.fillStyle=col;g.fillRect(x,y,1,1);};
+  // 等距投影：顶面菱形 (8,0)(16,4)(8,8)(0,4)，左右为两个平行四边形侧面
+  for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+    const a=(y<=4)?7-2*y:2*y-9, b=(y<=4)?8+2*y:24-2*y;
+    const isTop=(y<=8&&x>=Math.max(0,a)&&x<=Math.min(15,b));
+    const tx=x+0.5,ty=y+0.5;
+    let u,v,tex,k;
+    if(isTop){u=2*ty+tx-8;v=2*ty-tx+8;tex=top;k=1;}
+    else if(x<8&&ty>4+tx/2&&ty<=12+tx/2){u=2*tx;v=2*ty-8-tx;tex=side;k=0.8;}
+    else if(x>=8&&ty>12-tx/2&&ty<=20-tx/2){u=2*(tx-8);v=2*ty+tx-24;tex=side;k=0.66;}
+    else continue;
+    px(x,y,shade(tex[clamp(Math.floor(v))*S+clamp(Math.floor(u))],k));
+  }
+}
+
+(function(){
+  const face=makeCreeperFace();
+  const gb=document.getElementById("heroGrass");
+  if(gb)drawGrassBlock(gb);
+  paintFace(document.getElementById("startCreeper"),face);
+})();
+
 // ================= 游戏 =================
 const $=s=>document.querySelector(s);
-let settings={sherd:false,template:false,wool:false};
-try{Object.assign(settings,JSON.parse(localStorage.getItem("mc_guess_settings")||"{}"));}catch(e){}
-for(const k of Object.keys(settings))$("#o_"+k).checked=!!settings[k];
+let settings={sherd:false,template:false,color:false};
+try{const saved=JSON.parse(localStorage.getItem("mc_guess_settings")||"{}");for(const k of Object.keys(settings)){if(k in saved)settings[k]=!!saved[k];}}catch(e){}
+document.querySelectorAll(".opts input[id^='o_']").forEach(el=>{const k=el.id.slice(2);if(!(k in settings))settings[k]=false;el.checked=!!settings[k];});
 $("#total").textContent=DATA.length;
 let target=null,guesses=[],over=false,started=false;
-const BEST_KEY="mc_guess_best_score";
-let bestScore=0;try{bestScore=Number(localStorage.getItem(BEST_KEY)||0)||0;}catch(e){}
+const TOTAL_KEY="mc_guess_total_score";
+let totalScore=0;try{totalScore=Number(localStorage.getItem(TOTAL_KEY)||0)||0;}catch(e){}
 function scoreFor(count){return Math.max(100,1000-(Math.max(1,count)-1)*100);}
-function refreshScore(){const score=guesses.length?scoreFor(guesses.length):1000;$("#score").textContent=started?score:"—";$("#best").textContent=bestScore;$("#cnt").textContent=guesses.length;}
+function currentRoundScore(){return guesses.length?scoreFor(guesses.length):(started?1000:0);}
+function refreshScore(){$("#score").textContent=totalScore;$("#best").textContent=started?currentRoundScore():"—";$("#cnt").textContent=guesses.length;}
 function clearRows(){document.querySelectorAll("#grid .dyn").forEach(n=>n.remove());}
 $("#startbtn").onclick=()=>{started=true;$("#startscreen").style.display="none";refreshScore();$("#q").focus();};
 function newGame(){
@@ -513,9 +619,7 @@ function newGame(){
   target=pool[Math.floor(Math.random()*pool.length)];
   guesses=[];over=false;clearRows();refreshScore();$("#q").value="";hideSug();$("#modal").style.display="none";
 }
-for(const k of Object.keys(settings)){
-  $("#o_"+k).addEventListener("change",e=>{settings[k]=e.target.checked;try{localStorage.setItem("mc_guess_settings",JSON.stringify(settings));}catch(_){}newGame();});
-}
+document.querySelectorAll(".opts input[id^='o_']").forEach(el=>{const k=el.id.slice(2);el.addEventListener("change",e=>{settings[k]=e.target.checked;try{localStorage.setItem("mc_guess_settings",JSON.stringify(settings));}catch(_){}newGame();});});
 $("#newgame").onclick=e=>{e.preventDefault();newGame();};
 $("#giveup").onclick=e=>{e.preventDefault();if(over)return;over=true;reveal(false);};
 
@@ -577,7 +681,7 @@ function submit(selectedGuess=null){
   guesses.push(g);
   const r=compare(g,target,settings);
   addRow(g,r);refreshScore();$("#q").value="";hideSug();
-  if(r.win){over=true;const finalScore=scoreFor(guesses.length);if(finalScore>bestScore){bestScore=finalScore;try{localStorage.setItem(BEST_KEY,String(bestScore));}catch(e){}}refreshScore();setTimeout(()=>reveal(true),500);}
+  if(r.win){over=true;const finalScore=scoreFor(guesses.length);totalScore+=finalScore;try{localStorage.setItem(TOTAL_KEY,String(totalScore));}catch(e){}refreshScore();setTimeout(()=>reveal(true),500);}
 }
 function cell(cls,txt,extra){const d=document.createElement("div");d.className="cell dyn "+cls;if(txt!=null)d.textContent=txt;if(extra)d.style.animationDelay=extra;return d;}
 function addRow(g,r){
@@ -670,12 +774,12 @@ function hearts(n){const f=Math.floor(n/2),h=n%2,u=tinyURL("heart",HEART_P);cons
   let s=`<img class="dr" src="${u}">`.repeat(full)+(h?`<span style="display:inline-block;width:9px;height:18px;overflow:hidden;vertical-align:middle"><img class="dr" src="${u}"></span>`:"");
   return s+(f>10?` <small>×${f}</small>`:"");}
 function reveal(won){
-  if(!won)$("#score").textContent=0;
-  const t=target,isG=t.g&&settings[t.g];
+  if(!won)$("#best").textContent=0;
+  const t=target,isG=t.g&&gOn(t.g,settings);
   const title=isG?GROUPS[t.g].name:t.n,wikiName=isG?GROUPS[t.g].page:t.n;
   let h=`<h2><span id="hico"></span>${won?"答对了！":"答案是…"} ${esc(title)}</h2>
   <div><span class="badge">${t.c}</span><span class="badge">维度：${t.d}</span><span class="badge">${esc(t.t)}</span>${t.s.map(s=>`<span class="badge">${esc(s)}</span>`).join("")}</div>
-  <div class="result-score"><div><small>${won?"本局得分":"本局得分"}</small><strong>${won?scoreFor(guesses.length):0}</strong><span>PTS</span></div><div><small>猜测次数</small><strong>${guesses.length}</strong><span>次</span></div><div><small>最高纪录</small><strong>${bestScore}</strong><span>PTS</span></div></div>
+  <div class="result-score"><div><small>${won?"本局得分":"本局得分"}</small><strong>${won?scoreFor(guesses.length):0}</strong><span>PTS</span></div><div><small>猜测次数</small><strong>${guesses.length}</strong><span>次</span></div><div><small>累计得分</small><strong>${totalScore}</strong><span>PTS</span></div></div>
   <div class="big">${won?`你一共猜了 <b>${guesses.length}</b> 次`:`本局猜了 ${guesses.length} 次`}${isG?`<br><small>（合并模式：该系列任意一种都算答对，下方资料以「${esc(t.n)}」为例）</small>`:""}</div>
   <div id="wiki"><div class="sec"><div class="loading">正在从 Minecraft Wiki 读取「${esc(wikiName)}」……</div></div></div>`;
   h+=`<div class="sec"><h4>加入时间</h4><div class="slot" style="display:inline-flex">${t.v}　${VERNAME[major(t.v)]||""}</div></div>`;
