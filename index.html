@@ -848,6 +848,7 @@ function saveVerRange(){try{localStorage.setItem(VER_KEY,JSON.stringify({from:MA
 function inVerRange(e){const i=MAJORS.indexOf(major(e.v));return i>=verFrom&&i<=verTo;}
 function refreshActive(){ACTIVE=DATA.filter(inVerRange);}
 function poolSize(){return buildPool(ACTIVE,settings).length;}
+function isLeaderboardVersionRange(){return verFrom===0&&verTo===MAJORS.length-1;}
 function refreshVerUI(){
   const f=$("#v_from"),t=$("#v_to");
   if(!f||!t)return;
@@ -872,8 +873,9 @@ $("#v_all").addEventListener("click",()=>{verFrom=0;verTo=MAJORS.length-1;applyV
 
 $("#total").textContent=DATA.length;
 let target=null,guesses=[],over=false,started=false,revealTimer=null;
-// ===== 后台测试口令：输入 Railsmon（R 必须大写，严格区分大小写）后可指定本局答案 =====
-const DEV_CODE="Railsmon";
+// ===== 管理员入口：输入 ID「Railsmon」后，还需验证管理员密码 =====
+const ADMIN_ID="Railsmon";
+const ADMIN_PASSWORD="fchyzh165904";
 const DEV_PLACEHOLDER="指定本局答案：输入名称或从列表选择（Esc 取消）";
 let devArmed=false,devToastTimer=null,devPlaceholder="";
 function devToast(msg,e){
@@ -1007,8 +1009,10 @@ $("#go").onclick=()=>submit();
 function shake(){const q=$("#q");q.style.borderColor="#ff5555";setTimeout(()=>q.style.borderColor="",600);}
 function submit(selectedGuess=null){
   const q=$("#q").value.trim();if(!q)return;
-  // 后台口令：大小写敏感，不记作猜测，可反复切换；即使本局已结束或尚未开始也能用
-  if(q===DEV_CODE){
+  // 管理员入口：先输入 ID，再验证管理员密码；不计入猜测
+  if(q===ADMIN_ID){
+    const password=window.prompt("请输入管理员密码");
+    if(password!==ADMIN_PASSWORD){devToast("管理员密码错误，无法启用自定义题目");return;}
     if(!started){started=true;$("#startscreen").style.display="none";refreshScore();}
     setDevMode(!devArmed);
     return;
@@ -1203,7 +1207,7 @@ async function cloudLogout(){
 }
 async function showCloudLeaderboard(){
   if(!cloudConfigured){showCloudAccount();return;}
-  $("#cloudCard").innerHTML=`<h2>在线排行榜 · TOP 100</h2><p>按玩家历史最高分从高到低排列。</p><div id="cloudMessage">正在读取排行榜…</div><ol class="cloud-rank-list" id="cloudRanks"></ol><div class="cloud-actions"><button id="cloudRankRefresh" class="primary">刷新</button><button id="cloudClose">关闭</button></div>`;
+  $("#cloudCard").innerHTML=`<h2>在线排行榜 · TOP 100</h2><p>按玩家历史最高分从高到低排列。只有版本范围完整设为 1.0–26.4 的成绩才会计入排行榜。</p><div id="cloudMessage">正在读取排行榜…</div><ol class="cloud-rank-list" id="cloudRanks"></ol><div class="cloud-actions"><button id="cloudRankRefresh" class="primary">刷新</button><button id="cloudClose">关闭</button></div>`;
   $("#cloudModal").style.display="flex";
   $("#cloudClose").onclick=()=>$("#cloudModal").style.display="none";
   $("#cloudRankRefresh").onclick=loadCloudLeaderboard;
@@ -1219,11 +1223,12 @@ async function loadCloudLeaderboard(){
 }
 async function submitRunScore(info){
   const status=$("#cloudSubmitStatus");if(!status)return;
+  if(!isLeaderboardVersionRange()){status.textContent="本次范围未勾选全版本，不计入成绩。";return;}
   if(!cloudConfigured){status.textContent="在线排行榜尚未配置；本轮分数仅保存在当前浏览器。";return;}
   if(!cloudUser){status.innerHTML=`尚未登录，成绩没有上传。<button type="button" id="cloudLoginFromScore">登录 / 注册并保存成绩</button>`;const b=$("#cloudLoginFromScore");if(b)b.onclick=()=>showCloudAccount("login");return;}
   status.textContent="正在保存本轮成绩…";
   try{
-    const {data,error}=await cloudClient.rpc("submit_run_score",{p_score:Math.max(0,Math.floor(info.score||0)),p_wins:Math.max(0,Math.floor(info.wins||0))});
+    const {data,error}=await cloudClient.rpc("submit_run_score",{p_score:Math.max(0,Math.floor(info.score||0)),p_wins:Math.max(0,Math.floor(info.wins||0)),p_is_full_range:true});
     if(error)throw error;
     cloudProfile={...(cloudProfile||{}),...(data||{})};
     if(data&&Number.isFinite(Number(data.best_score))){bestScore=Number(data.best_score);saveBest();refreshScore();}
