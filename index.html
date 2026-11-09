@@ -139,6 +139,13 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
 .asset-missing{visibility:visible;object-fit:contain;opacity:.35}
 
 @media(max-width:520px){.music-dock{left:8px;right:8px;bottom:8px;justify-content:center;gap:6px;padding:7px}.music-status{max-width:90px}.music-dock input[type=range]{width:58px}}
+  /* 版本区间选择器 */
+  .verrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px}
+  .verrow label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+  .verrow select{font-family:inherit;font-size:14px;padding:5px 8px;background:#fffdf4;color:var(--ink);border:2px solid #101010;box-shadow:inset 2px 2px 0 #fff,inset -2px -2px 0 #b9b2a0;cursor:pointer;min-width:136px;max-width:240px}
+  .verrow .btn{padding:5px 12px;font-size:13px}
+  .vercount{margin-left:auto;font-size:13px;font-weight:700;color:#284d1d;background:#d9e8c8;border:2px solid #101010;padding:5px 10px}
+  .verwarn{display:none;font-size:12px;color:#9c2f24;margin-top:6px;font-weight:700}
 </style>
 </head>
 <body>
@@ -154,10 +161,10 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
     <div class="grass-stage" aria-label="经典草方块像素形象"><div class="grass-shadow"></div><canvas class="grass-block" id="heroGrass" width="16" height="16"></canvas><div class="grass-label">GRASS BLOCK</div></div>
   </header>
   <div class="scorebar">
-    <div class="scorebox"><span class="score-icon">✦</span><div><small>累计得分</small><strong id="score">0</strong></div></div>
-    <div class="scorebox"><span class="score-icon trophy">★</span><div><small>本局得分</small><strong id="best">—</strong></div></div>
-    <div class="scorebox"><span class="score-icon">⌁</span><div><small>已猜次数</small><strong><span id="cnt">0</span><em> 次</em></strong></div></div>
-    <div class="score-rule">首猜答对可得 1000 分，每多猜一次扣 100 分，最低 100 分；放弃本局得 0 分。</div>
+    <div class="scorebox"><span class="score-icon">✦</span><div><small>历史最高分</small><strong id="score">0</strong></div></div>
+    <div class="scorebox"><span class="score-icon trophy">★</span><div><small>本轮累计</small><strong id="best">0</strong></div></div>
+    <div class="scorebox"><span class="score-icon">⌁</span><div><small>已猜次数</small><strong><span id="cnt">0</span><em> / 10 次</em></strong></div></div>
+    <div class="score-rule">每题 10 次机会：首猜答对 1000 分，每错一次扣 1 分（第 10 次猜中得 991 分）。连续答对的分数累加到本轮，答对后可选择「继续挑战」或「结算本轮」；10 次用尽或放弃会结束本轮。历史最高分自动保存。</div>
   </div>
   <div class="tagline">寻找隐藏物品 · 根据反馈逐步缩小范围</div>
 
@@ -171,6 +178,18 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
       <label><input type="checkbox" id="o_book"> 合并所有附魔书</label>
     </div>
     <div class="hint">勾选后立即开始新的一局：猜中同一系列的任意一种即算答对。「合并所有不同颜色方块」会把仅颜色不同的同种方块各自归为一组（如各色羊毛、混凝土、混凝土粉末、染色玻璃、地毯、陶瓦、床、潜影盒、蜡烛等），猜中该系列的任意一种颜色即算答对。铜的氧化、涂蜡形态视为同一项（输入“氧化铜格栅”会当作“铜格栅”）。药水按效果种类展开（普通 / 喷溅型 / 滞留型，不含延长与强效变体），附魔书按魔咒种类展开（不分等级）；勾选对应合并项后，猜中该系列任意一种即算答对。</div>
+  </div>
+
+  <div class="gui">
+    <h3>版本区间</h3>
+    <div class="verrow">
+      <label>从 <select id="v_from" aria-label="起始版本"></select></label>
+      <label>到 <select id="v_to" aria-label="结束版本"></select></label>
+      <button class="btn" type="button" id="v_all">全部版本</button>
+      <span class="vercount" id="v_count">—</span>
+    </div>
+    <div class="hint">答案只从所选「加入版本」区间内抽取，下拉候选也同步收窄；手动输入仍可猜全库任意物品，方便用版本箭头推理。按主版本划分，1.0–1.21 之后接 26.1–26.4。更改后立即开始新的一局，并在本机记住选择。</div>
+    <div class="verwarn" id="v_warn">该区间在当前的合并设置下没有可选题目，本局已临时使用全部版本。</div>
   </div>
 
   <div class="inputrow">
@@ -204,11 +223,11 @@ body{background:#17251b;padding:22px 14px 70px;background-image:radial-gradient(
     <div class="start-rules">
       <div><b>01</b><span>输入物品名称进行猜测</span></div>
       <div><b>02</b><span>观察颜色与箭头，缩小范围</span></div>
-      <div><b>03</b><span>猜得越少，获得的分数越高</span></div>
+      <div><b>03</b><span>10 次机会内找答案，连续答对可累加分数</span></div>
     </div>
-    <div class="start-score">首猜答对 <strong>1000</strong> 分 · 每多猜一次扣 100 分</div>
+    <div class="start-score">首猜答对 <strong>1000</strong> 分 · 每错一次扣 1 分 · 每题 10 次机会</div>
     <button class="start-button" id="startbtn">▶ 开始游戏</button>
-    <div class="start-foot">准备好后，点击按钮开始第一题</div>
+    <div class="start-foot">答对后可选择继续挑战或结算，历史最高分自动保存</div>
   </div>
 </div>
 
@@ -781,8 +800,49 @@ const $=s=>document.querySelector(s);
 let settings={sherd:false,template:false,color:false,potion:false,book:false};
 try{const saved=JSON.parse(localStorage.getItem("mc_guess_settings")||"{}");for(const k of Object.keys(settings)){if(k in saved)settings[k]=!!saved[k];}}catch(e){}
 document.querySelectorAll(".opts input[id^='o_']").forEach(el=>{const k=el.id.slice(2);if(!(k in settings))settings[k]=false;el.checked=!!settings[k];});
+// ===== 版本区间：答案池与候选列表按「加入版本」的主版本过滤 =====
+const VER_KEY="mc_guess_version_range";
+let verFrom=0,verTo=MAJORS.length-1,ACTIVE=DATA.slice();
+function verIdx(v){const i=MAJORS.indexOf(v);return i<0?null:i;}
+function loadVerRange(){
+  try{
+    const r=JSON.parse(localStorage.getItem(VER_KEY)||"null");
+    if(!r)return;
+    const a=verIdx(r.from),b=verIdx(r.to);
+    verFrom=a==null?0:a;verTo=b==null?MAJORS.length-1:b;
+    if(verFrom>verTo)verFrom=verTo;
+  }catch(e){}
+}
+function saveVerRange(){try{localStorage.setItem(VER_KEY,JSON.stringify({from:MAJORS[verFrom],to:MAJORS[verTo]}));}catch(e){}}
+function inVerRange(e){const i=MAJORS.indexOf(major(e.v));return i>=verFrom&&i<=verTo;}
+function refreshActive(){ACTIVE=DATA.filter(inVerRange);}
+function poolSize(){return buildPool(ACTIVE,settings).length;}
+function refreshVerUI(){
+  const f=$("#v_from"),t=$("#v_to");
+  if(!f||!t)return;
+  if(!f.options.length){
+    const cnt={};for(const e of DATA){const m=major(e.v);cnt[m]=(cnt[m]||0)+1;}
+    const html=MAJORS.map((m,i)=>`<option value="${i}">${m}（${cnt[m]||0} 项）</option>`).join("");
+    f.innerHTML=html;t.innerHTML=html;
+  }
+  f.value=String(verFrom);t.value=String(verTo);
+  const n=poolSize();
+  $("#v_count").textContent=`可选题目 ${n} 项 / 全库 ${DATA.length} 项`;
+  $("#v_count").title=`当前区间 ${MAJORS[verFrom]} – ${MAJORS[verTo]}`;
+  $("#v_warn").style.display=n?"none":"block";
+}
+function applyVerRange(changed){
+  if(changed==="from"&&verFrom>verTo)verTo=verFrom;
+  if(changed==="to"&&verTo<verFrom)verFrom=verTo;
+  refreshActive();saveVerRange();newGame();
+}
+loadVerRange();refreshActive();refreshVerUI();
+$("#v_from").addEventListener("change",e=>{verFrom=Number(e.target.value);applyVerRange("from");});
+$("#v_to").addEventListener("change",e=>{verTo=Number(e.target.value);applyVerRange("to");});
+$("#v_all").addEventListener("click",()=>{verFrom=0;verTo=MAJORS.length-1;applyVerRange();});
+
 $("#total").textContent=DATA.length;
-let target=null,guesses=[],over=false,started=false;
+let target=null,guesses=[],over=false,started=false,revealTimer=null;
 // ===== 后台测试口令：输入 Railsmon（R 必须大写，严格区分大小写）后可指定本局答案 =====
 const DEV_CODE="Railsmon";
 const DEV_PLACEHOLDER="指定本局答案：输入名称或从列表选择（Esc 取消）";
@@ -813,28 +873,54 @@ function setDevMode(on){
   q.value="";hideSug();q.focus();
 }
 function setDevTarget(e){
+  clearTimeout(revealTimer);
   target=e;
   guesses=[];over=false;clearRows();refreshScore();
   $("#modal").style.display="none";
   setDevMode(false);   // 指定后自动退出，接着就能正常猜这题
   devToast("本局答案已指定："+e.n+"（"+e.c+" · "+e.t+"）",e);
 }
-const TOTAL_KEY="mc_guess_total_score";
-let totalScore=0;try{totalScore=Number(localStorage.getItem(TOTAL_KEY)||0)||0;}catch(e){}
-function scoreFor(count){return Math.max(100,1000-(Math.max(1,count)-1)*100);}
-function currentRoundScore(){return guesses.length?scoreFor(guesses.length):(started?1000:0);}
-function refreshScore(){$("#score").textContent=totalScore;$("#best").textContent=started?currentRoundScore():"—";$("#cnt").textContent=guesses.length;}
+// ===== 计分：每题 1000 分起、每错一次 -1、10 次机会；连续答对累加本轮，历史最高分持久化 =====
+const BEST_KEY="mc_guess_best_score",MAX_GUESSES=10;
+let bestScore=0;try{bestScore=Math.max(0,Number(localStorage.getItem(BEST_KEY)||0)||0);}catch(e){}
+let runScore=0,runWins=0,runRecord=false;
+function scoreFor(count){return Math.max(0,1000-(Math.max(1,count)-1));}
+function saveBest(){try{localStorage.setItem(BEST_KEY,String(bestScore));}catch(e){}}
+function refreshScore(){
+  $("#score").textContent=bestScore;
+  $("#best").textContent=runScore;
+  $("#cnt").textContent=guesses.length;
+}
+function settleRun(){
+  const info={score:runScore,wins:runWins,newRecord:runRecord};
+  runScore=0;runWins=0;runRecord=false;
+  refreshScore();
+  return info;
+}
+function showSettle(){
+  const info=settleRun();
+  $("#card").innerHTML=`<h2>本轮结算</h2>
+  <div class="result-score"><div><small>本轮得分</small><strong>${info.score}</strong><span>PTS</span></div><div><small>连续答对</small><strong>${info.wins}</strong><span>题</span></div><div><small>历史最高分</small><strong>${bestScore}</strong><span>PTS</span></div></div>
+  <div class="big">${info.newRecord?"刷新了历史最高分！":"本轮结束，历史最高分保持不变。"}<br><small>每题 1000 分起，每错一次扣 1 分；连续答对可持续累加。</small></div>
+  <div class="actions"><button class="btn green js-again">开始新一轮</button></div>`;
+  $("#modal").style.display="flex";
+  $("#card").querySelectorAll(".js-again").forEach(b=>b.onclick=newGame);
+}
 function clearRows(){document.querySelectorAll("#grid .dyn").forEach(n=>n.remove());}
 $("#startbtn").onclick=()=>{started=true;$("#startscreen").style.display="none";refreshScore();$("#q").focus();};
 function newGame(){
+  clearTimeout(revealTimer);
   if(devArmed)setDevMode(false);
-  const pool=buildPool(DATA,settings);
+  let pool=buildPool(ACTIVE,settings),fallback=false;
+  if(!pool.length){pool=buildPool(DATA,settings);fallback=true;}
   target=pool[Math.floor(Math.random()*pool.length)];
   guesses=[];over=false;clearRows();refreshScore();$("#q").value="";hideSug();$("#modal").style.display="none";
+  if(typeof refreshVerUI==="function")refreshVerUI();
+  const w=$("#v_warn");if(w)w.style.display=fallback?"block":"none";
 }
 document.querySelectorAll(".opts input[id^='o_']").forEach(el=>{const k=el.id.slice(2);el.addEventListener("change",e=>{settings[k]=e.target.checked;try{localStorage.setItem("mc_guess_settings",JSON.stringify(settings));}catch(_){}newGame();});});
 $("#newgame").onclick=e=>{e.preventDefault();newGame();};
-$("#giveup").onclick=e=>{e.preventDefault();if(over)return;over=true;reveal(false);};
+$("#giveup").onclick=e=>{e.preventDefault();if(over)return;over=true;const info=settleRun();reveal(false,info);};
 
 let sugItems=[],sugIdx=-1,sugExpanded=false;
 function hideSug(){$("#sug").style.display="none";sugItems=[];sugIdx=-1;sugExpanded=false;}
@@ -842,7 +928,7 @@ function showSug(){
   const raw=$("#q").value.trim();if(!raw){hideSug();return;}
   const q=normName(raw)||raw;
   const done=new Set(guesses.map(g=>g.id)),starts=[],inc=[];
-  for(const e of DATA){if(done.has(e.id))continue;if(e.rep&&!gOn(e.g,settings))continue;const k=e.n.indexOf(q);if(k===0)starts.push(e);else if(k>0)inc.push(e);}
+  for(const e of ACTIVE){if(done.has(e.id))continue;if(e.rep&&!gOn(e.g,settings))continue;const k=e.n.indexOf(q);if(k===0)starts.push(e);else if(k>0)inc.push(e);}
   sugItems=starts.concat(inc);
   const box=$("#sug");if(!sugItems.length){hideSug();return;}
   if(sugIdx>=16)sugExpanded=true;
@@ -901,14 +987,23 @@ function submit(selectedGuess=null){
     setDevTarget(e);
     return;
   }
-  if(!started||over)return;
+  if(!started||over||guesses.length>=MAX_GUESSES)return;
   let g=selectedGuess||findByName(DATA,q);
   if(!g&&sugItems.length)g=sugItems[Math.max(sugIdx,0)];
   if(!g||guesses.some(x=>x.id===g.id)){shake();return;}
   guesses.push(g);
   const r=compare(g,target,settings);
   addRow(g,r);refreshScore();$("#q").value="";hideSug();
-  if(r.win){over=true;const finalScore=scoreFor(guesses.length);totalScore+=finalScore;try{localStorage.setItem(TOTAL_KEY,String(totalScore));}catch(e){}refreshScore();setTimeout(()=>reveal(true),500);}
+  if(r.win){
+    over=true;
+    runScore+=scoreFor(guesses.length);runWins++;
+    if(runScore>bestScore){bestScore=runScore;runRecord=true;saveBest();}
+    refreshScore();
+    revealTimer=setTimeout(()=>reveal(true),500);
+  }else if(guesses.length>=MAX_GUESSES){
+    over=true;const info=settleRun();
+    revealTimer=setTimeout(()=>reveal(false,info),500);
+  }
 }
 function cell(cls,txt,extra){const d=document.createElement("div");d.className="cell dyn "+cls;if(txt!=null)d.textContent=txt;if(extra)d.style.animationDelay=extra;return d;}
 function addRow(g,r){
@@ -1000,14 +1095,18 @@ const BESTTOOL={axe:"斧头",shovel:"锹",hoe:"锄",shears:"剪刀",sword:"剑",
 function hearts(n){const f=Math.floor(n/2),h=n%2,u=tinyURL("heart",HEART_P);const full=Math.min(f,10);
   let s=`<img class="dr" src="${u}">`.repeat(full)+(h?`<span style="display:inline-block;width:9px;height:18px;overflow:hidden;vertical-align:middle"><img class="dr" src="${u}"></span>`:"");
   return s+(f>10?` <small>×${f}</small>`:"");}
-function reveal(won){
-  if(!won)$("#best").textContent=0;
+function reveal(won,info){
   const t=target,isG=t.g&&gOn(t.g,settings);
+  const runShown=info?info.score:runScore;
+  const acts=won
+    ?`<div class="actions"><button class="btn green js-again">继续挑战</button><button class="btn js-settle">结算本轮</button></div>`
+    :`<div class="actions"><button class="btn green js-again">开始新一轮</button></div>`;
   const title=isG?GROUPS[t.g].name:t.n,wikiName=isG?GROUPS[t.g].page:t.n;
   let h=`<h2><span id="hico"></span>${won?"答对了！":"答案是…"} ${esc(title)}</h2>
   <div><span class="badge">${t.c}</span><span class="badge">维度：${t.d}</span><span class="badge">${esc(t.t)}</span>${t.s.map(s=>`<span class="badge">${esc(s)}</span>`).join("")}</div>
-  <div class="result-score"><div><small>${won?"本局得分":"本局得分"}</small><strong>${won?scoreFor(guesses.length):0}</strong><span>PTS</span></div><div><small>猜测次数</small><strong>${guesses.length}</strong><span>次</span></div><div><small>累计得分</small><strong>${totalScore}</strong><span>PTS</span></div></div>
-  <div class="big">${won?`你一共猜了 <b>${guesses.length}</b> 次`:`本局猜了 ${guesses.length} 次`}${isG?`<br><small>（合并模式：该系列任意一种都算答对，下方资料以「${esc(t.n)}」为例）</small>`:""}</div>
+  <div class="result-score"><div><small>本题得分</small><strong>${won?scoreFor(guesses.length):0}</strong><span>PTS</span></div><div><small>本轮累计</small><strong>${runShown}</strong><span>PTS</span></div><div><small>历史最高分</small><strong>${bestScore}</strong><span>PTS</span></div></div>
+  ${acts}
+  <div class="big">${won?`你一共猜了 <b>${guesses.length}</b> 次`:`本局猜了 ${guesses.length} 次`}${isG?`<br><small>（合并模式：该系列任意一种都算答对，下方资料以「${esc(t.n)}」为例）</small>`:""}${won?`<br><small>已连续答对 ${runWins} 题，本轮累计 ${runScore} 分。选择「继续挑战」保留累计分，「结算本轮」结束并计入历史最高分。</small>`:`<br><small>本轮已结束（连续答对 ${info?info.wins:0} 题），下一题开启新一轮。</small>`}</div>
   <div id="wiki"><div class="sec"><div class="loading">正在从 Minecraft Wiki 读取「${esc(wikiName)}」……</div></div></div>`;
   h+=`<div class="sec"><h4>加入时间</h4><div class="slot" style="display:inline-flex">${t.v}　${VERNAME[major(t.v)]||""}</div></div>`;
   if(t.rec)h+=`<div class="sec"><h4>合成方式</h4><div>${esc(t.rec)}</div></div>`;
@@ -1021,12 +1120,13 @@ function reveal(won){
   if(t.hp!=null)stats.push(`<span class="slot">血量 ${t.hp} ${hearts(t.hp)}</span>`);
   if(t.arm!=null)stats.push(`<span class="slot">🛡 防御力 ${t.arm}</span>`);
   if(stats.length)h+=`<div class="sec"><h4>战斗数据</h4><div class="kv">${stats.join("")}</div></div>`;
-  h+=`<div class="actions"><button class="btn green" id="again">再来一局</button><button class="btn" id="close">关闭</button></div>`;
+  h+=acts;
   const card=$("#card");card.innerHTML=h;const tierIcon=$("#tier-pick-icon");if(tierIcon)setCachedImage(tierIcon,pickURL(t.tool));$("#modal").style.display="flex";
   const hi=iconImg(t,44);hi.width=44;hi.height=44;$("#hico").appendChild(hi);
-  $("#again").onclick=newGame;$("#close").onclick=()=>$("#modal").style.display="none";
-  loadWiki(wikiName).then(w=>{if(target!==t)return;$("#wiki").innerHTML=wikiBlocks(w,t.desc,t.hist);bindMore();})
-    .catch(()=>{if(target!==t)return;$("#wiki").innerHTML=wikiBlocks(null,t.desc,t.hist);});
+  $("#card").querySelectorAll(".js-again").forEach(b=>b.onclick=newGame);
+  $("#card").querySelectorAll(".js-settle").forEach(b=>b.onclick=showSettle);
+  loadWiki(wikiName).then(w=>{if(target!==t||!$("#wiki"))return;$("#wiki").innerHTML=wikiBlocks(w,t.desc,t.hist);bindMore();})
+    .catch(()=>{if(target!==t||!$("#wiki"))return;$("#wiki").innerHTML=wikiBlocks(null,t.desc,t.hist);});
 }
 function bindMore(){const b=$("#moreh");if(!b)return;b.onclick=()=>{$("#hist").innerHTML=window.__hist.join("");b.remove();};}
 // 本地音乐播放器：用户自行选择有权播放的音频文件，不向网站打包分发受版权保护的游戏原声。
